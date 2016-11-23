@@ -7,3 +7,5 @@ module Jekyll
     end
   end
 end
+
+require "jekyll/commands/migrate_permalink"
