@@ -1,41 +1,32 @@
-# Jekyll::Migrate::Permalink
+# jekyll-migrate-permalink
 
-Welcome to your new gem! In this directory, you'll find the files you need to be able to package up your Ruby library into a gem. Put your Ruby code in the file `lib/jekyll/migrate/permalink`. To experiment with that code, run `bin/console` for an interactive prompt.
+### What Is This?
 
-TODO: Delete this and the text above, and describe your gem
+`jekyll-migrate-permalink` is a plugin that aims to make your life easier if you're considering changing your [permalink](https://jekyllrb.com/docs/permalinks/). I got the idea for this plugin as I was considering a switch from `/blog/:title` to `/title`.
 
-## Installation
+A change to your permalink means that any backlinks to your site will break. You have a few options...
 
-Add this line to your application's Gemfile:
+- Redirect all old URLs to the new permalinks.
+- Continue serving old content at your old URL and only use the new permalink style for new content
 
-```ruby
-gem 'jekyll-migrate-permalink'
-```
+`jekyll-migrate-permalink` can help you with either approach.
 
-And then execute:
+### Redirect all old URLs to the new permalink
 
-    $ bundle
+The [`jekyll-redirect-from`](https://github.com/jekyll/jekyll-redirect-from) plugin is [available on GitHub pages](https://pages.github.com/versions/) can be used to for creating redirects. However, to do this you need to update your front matter with a `redirect_from` specifying the old URL. `jekyll-migrate-permalink` makes this process painless.
 
-Or install it yourself as:
+1. Before changing your permalink style in `_config.yml` run `jekyll migrate-permalink`. The front matter will be updated on all your posts with a `redirect_from` referencing your post's current URL.
+2. Update your permalink in `_config.yml`
+3. Build your site!
 
-    $ gem install jekyll-migrate-permalink
+### Continue serving old content at old URLs
 
-## Usage
+`jekyll-migrate-plugin` can also help with this approach. Again, it's painless
 
-TODO: Write usage instructions here
+1. Before changing your permalink style in `_config.yml` run `jekyll migrate-permalink --strategy retain`. The front matter will be updated on all your posts with a `permalink` referencing your current post's URL.
+2. Update your permalink in `_config.yml`
+3. Build your site!
 
-## Development
+### Caveats
 
-After checking out the repo, run `bin/setup` to install dependencies. Then, run `rake false` to run the tests. You can also run `bin/console` for an interactive prompt that will allow you to experiment.
-
-To install this gem onto your local machine, run `bundle exec rake install`. To release a new version, update the version number in `version.rb`, and then run `bundle exec rake release`, which will create a git tag for the version, push git commits and tags, and push the `.gem` file to [rubygems.org](https://rubygems.org).
-
-## Contributing
-
-Bug reports and pull requests are welcome on GitHub at https://github.com/[USERNAME]/jekyll-migrate-permalink.
-
-
-## License
-
-The gem is available as open source under the terms of the [MIT License](http://opensource.org/licenses/MIT).
-
+Note that the plugin loads the front matter as YAML in order to safely manipulate, and then converts it back to a string. This process may result in some slight formatting changes to your front matter.
