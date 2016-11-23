@@ -31,6 +31,10 @@ module Jekyll
               frontmatter = SafeYAML.load(Regexp.last_match(1))
             end
 
+            if frontmatter.nil?
+              frontmatter = frontmatter.to_h
+            end
+
             if opts["strategy"] == "retain"
               frontmatter["permalink"] = post.url
             else
