@@ -41,6 +41,6 @@ The [`jekyll-redirect-from`](https://github.com/jekyll/jekyll-redirect-from) plu
 2. Update your permalink in `_config.yml`
 3. Build your site!
 
-### Caveats
+## Caveats
 
 Note that the plugin loads the front matter as YAML in order to safely manipulate, and then converts it back to a string. This process may result in some slight formatting changes to your front matter.
