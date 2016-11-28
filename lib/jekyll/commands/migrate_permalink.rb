@@ -26,30 +26,34 @@ module Jekyll
 
           site.posts.docs.each do |post|
             content = File.read(post.path, Utils.merged_file_read_opts(site, options))
-            if content =~ Document::YAML_FRONT_MATTER_REGEXP
-              content = $POSTMATCH
-              frontmatter = SafeYAML.load(Regexp.last_match(1))
-            end
-
-            if frontmatter.nil?
-              frontmatter = frontmatter.to_h
-            end
-
-            if opts["strategy"] == "retain"
-              frontmatter["permalink"] = post.url
-            else
-              if frontmatter["redirect_from"].is_a? Array
-                frontmatter["redirect_from"].push(post.url)
-              else
-                frontmatter["redirect_from"] = [post.url]
-              end
-            end
-
-            output = "#{frontmatter.to_yaml}---\n\n#{content}"
+            output = process_content(content, post.url, opts["stategy"])
             File.write(post.path, output, :mode => "w")
+          end
+        end
 
+        def process_content(content, url, strategy)
+          if content =~ Document::YAML_FRONT_MATTER_REGEXP
+            content = $POSTMATCH
+            frontmatter = SafeYAML.load(Regexp.last_match(1))
           end
 
+          if frontmatter.nil?
+            frontmatter = frontmatter.to_h
+          end
+
+          if strategy == "retain"
+            frontmatter["permalink"] = url
+          else
+            if frontmatter["redirect_from"].is_a? Array
+              frontmatter["redirect_from"].push(url)
+            else
+              frontmatter["redirect_from"] = [url]
+            end
+          end
+
+          output = "#{frontmatter.to_yaml}---\n\n#{content}"
+
+          output
         end
 
       end
