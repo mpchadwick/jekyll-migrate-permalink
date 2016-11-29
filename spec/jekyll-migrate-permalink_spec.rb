@@ -40,4 +40,16 @@ describe(Jekyll::Migrate::Permalink) do
     frontmatter = SafeYAML.load(Regexp.last_match(1))
     expect(frontmatter["redirect_from"]).to eql([url])
   end
+
+  context "invoked with retain strategy" do
+    it "adds a permalink to the front matter on a post that doesn't have a permalink" do
+      content = File.read(source_dir("no-redirects-no-permalink.md"))
+      url = "/no-redirects-no-permalink"
+      output = Jekyll::Commands::MigratePermalinks.process_content(content, url, "retain")
+
+      output =~ Jekyll::Document::YAML_FRONT_MATTER_REGEXP
+      frontmatter = SafeYAML.load(Regexp.last_match(1))
+      expect(frontmatter["permalink"]).to eql(url)
+    end
+  end
 end
