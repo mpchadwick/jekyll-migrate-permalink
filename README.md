@@ -1,5 +1,7 @@
 # jekyll-migrate-permalink
 
+[![Gem Version](https://badge.fury.io/rb/jekyll-migrate-permalink.svg)](https://badge.fury.io/rb/jekyll-migrate-permalink)
+
 `jekyll-migrate-permalink` is a plugin that aims to make your life easier if you're considering changing your [permalink](https://jekyllrb.com/docs/permalinks/). I got the idea for this plugin as I was considering a switch from `/blog/:title` to `/title`.
 
 A change to your permalink means that any backlinks to your site will break. You have a few options...
