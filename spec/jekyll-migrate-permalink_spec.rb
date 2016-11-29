@@ -51,5 +51,15 @@ describe(Jekyll::Migrate::Permalink) do
       frontmatter = SafeYAML.load(Regexp.last_match(1))
       expect(frontmatter["permalink"]).to eql(url)
     end
+
+    it "doesnt overwrite an existing hardcoded permalink" do
+      content = File.read(source_dir("no-redirects-has-permalink.md"))
+      url = "/no-redirects-has-permalink"
+      output = Jekyll::Commands::MigratePermalinks.process_content(content, url, "retain")
+
+      output =~ Jekyll::Document::YAML_FRONT_MATTER_REGEXP
+      frontmatter = SafeYAML.load(Regexp.last_match(1))
+      expect(frontmatter["permalink"]).to eql("/hardcoded-permalink")
+    end
   end
 end

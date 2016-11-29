@@ -41,7 +41,7 @@ module Jekyll
             frontmatter = frontmatter.to_h
           end
 
-          if strategy == "retain"
+          if strategy == "retain" && !frontmatter["permalink"]
             frontmatter["permalink"] = url
           else
             if frontmatter["redirect_from"].is_a? Array
