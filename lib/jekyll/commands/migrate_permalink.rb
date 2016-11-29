@@ -46,6 +46,8 @@ module Jekyll
           else
             if frontmatter["redirect_from"].is_a? Array
               frontmatter["redirect_from"].push(url)
+            elsif frontmatter["redirect_from"].is_a? String
+              frontmatter["redirect_from"] = [frontmatter["redirect_from"], url]
             else
               frontmatter["redirect_from"] = [url]
             end

@@ -20,4 +20,14 @@ describe(Jekyll::Migrate::Permalink) do
     frontmatter = SafeYAML.load(Regexp.last_match(1))
     expect(frontmatter["redirect_from"]).to eql(["/current-redirect", url])
   end
+
+  it "appends a redirect to the front matter if it already has one as a scalar" do
+    content = File.read(source_dir("one-redirect-in-scalar-format-no-permalink.md"))
+    url = "/one-redirect-in-scalar-format-no-permalink"
+    output = Jekyll::Commands::MigratePermalinks.process_content(content, url, "redirect")
+
+    output =~ Jekyll::Document::YAML_FRONT_MATTER_REGEXP
+    frontmatter = SafeYAML.load(Regexp.last_match(1))
+    expect(frontmatter["redirect_from"]).to eql(["/current-redirect", url])
+  end
 end
